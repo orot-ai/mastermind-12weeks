@@ -1,0 +1,13 @@
+#!/bin/bash
+mv "도완대표님 과제 시스템.png" "dowan-assignment-system.png"
+mv "도완대표님 랜딩페이지.png" "dowan-landing-page.png"
+mv "지은대표님 릴스 제작 과제 시스템.png" "jieun-reels-system.png"
+mv "지은대표님 랜딩페이지.png" "jieun-landing-page.png"
+mv "지은대표님 신라비CRM.png" "jieun-shinravi-crm.png"
+mv "은아대표님 머니코드.png" "eunah-money-code.png"
+mv "가계부 템플릿.png" "account-book-template.png"
+mv "디지털월세관리템플릿.png" "digital-rent-template.png"
+mv "마음씀씀이.png" "mind-ledger.png"
+mv "통합가계부.png" "integrated-ledger.png"
+mv "Make Your CRM.png" "make-your-crm.png"
+mv "Boosteroide Landing.png" "boosteroide-landing.png"

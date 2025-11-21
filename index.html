@@ -1179,11 +1179,11 @@
 
     <div class="team-log-do-wan">
         <div class="game-img-frame clickable">
-            <img src="./도완대표님 과제 시스템.png" alt="Youtube System">
+            <img src="./dowan-assignment-system.png" alt="Youtube System">
             <div class="img-label" style="font-size: 22px; padding: 8px;">유튜브 과제 제출 시스템</div>
         </div>
         <div class="game-img-frame clickable" onclick="window.open('https://10x-boosteroid-pt.vercel.app/', '_blank')">
-            <img src="./도완대표님 랜딩페이지.png" alt="Boosteroid Landing">
+            <img src="./dowan-landing-page.png" alt="Boosteroid Landing">
             <div class="img-label" style="font-size: 22px; padding: 8px;">10X Boosteroid 랜딩페이지 🔗</div>
         </div>
     </div>
@@ -1196,15 +1196,15 @@
 
     <div class="team-log-ji-eun">
         <div class="game-img-frame clickable">
-            <img src="./지은대표님 릴스 제작 과제 시스템.png" alt="Reels System">
+            <img src="./jieun-reels-system.png" alt="Reels System">
             <div class="img-label" style="font-size: 22px; padding: 8px;">릴스 과제 시스템</div>
         </div>
         <div class="game-img-frame clickable" onclick="window.open('https://www.jjeeneazy.co.kr/', '_blank')">
-            <img src="./지은대표님 랜딩페이지.png" alt="Landing Page">
+            <img src="./jieun-landing-page.png" alt="Landing Page">
             <div class="img-label" style="font-size: 22px; padding: 8px;">랜딩페이지 제작</div>
         </div>
         <div class="game-img-frame clickable">
-            <img src="./지은대표님 신라비CRM.png" alt="CRM Setup">
+            <img src="./jieun-shinravi-crm.png" alt="CRM Setup">
             <div class="img-label" style="font-size: 22px; padding: 8px;">신라비 CRM 세팅</div>
         </div>
     </div>
@@ -1217,7 +1217,7 @@
 
     <div class="team-log-eun-ah">
         <div class="game-img-frame clickable" style="border-color: var(--neon-pink);" onclick="window.open('https://money-code-test.vercel.app/', '_blank')">
-            <img src="./은아대표님 머니코드.png" alt="Money Code Funnel">
+            <img src="./eunah-money-code.png" alt="Money Code Funnel">
             <div class="img-label" style="background: var(--neon-pink); font-size: 22px; padding: 8px;">머니코드 진단 퍼널 (설계 및 구현)</div>
         </div>
     </div>
@@ -1229,19 +1229,19 @@
     <h2 style="color: var(--neon-yellow); font-size: 38px; margin-bottom: 8px;">제품 개발 (TEMPLATES)</h2>
     <div class="layout-2x2">
         <div class="game-img-frame clickable">
-            <img src="./가계부 템플릿.png" alt="Account Book">
+            <img src="./account-book-template.png" alt="Account Book">
             <div class="img-label" style="font-size: 22px; padding: 8px;">기본 가계부</div>
         </div>
         <div class="game-img-frame clickable">
-            <img src="./디지털월세관리템플릿.png" alt="Rent Manager">
+            <img src="./digital-rent-template.png" alt="Rent Manager">
             <div class="img-label" style="font-size: 22px; padding: 8px;">디지털 월세 관리</div>
         </div>
         <div class="game-img-frame clickable">
-            <img src="./마음씀씀이.png" alt="Mind Ledger">
+            <img src="./mind-ledger.png" alt="Mind Ledger">
             <div class="img-label" style="font-size: 22px; padding: 8px;">마음 씀씀이</div>
         </div>
         <div class="game-img-frame clickable">
-            <img src="./통합가계부.png" alt="Integrated Ledger">
+            <img src="./integrated-ledger.png" alt="Integrated Ledger">
             <div class="img-label" style="font-size: 22px; padding: 8px;">통합 가계부</div>
         </div>
     </div>
@@ -1253,7 +1253,7 @@
     <h2 style="color: var(--neon-yellow); font-size: 38px; margin-bottom: 10px;">시스템 및 성과</h2>
     <div class="layout-split" style="height: calc(100% - 55px);">
         <div class="game-img-frame clickable" onclick="window.open('https://www.myorot-ai.com/', '_blank')">
-            <img src="./Make Your CRM.png" alt="Make Your CRM">
+            <img src="./make-your-crm.png" alt="Make Your CRM">
             <div class="img-label" style="background: var(--neon-pink);">
                 Make Your CRM (세팅 지원)
                 <span class="new-badge">NEW</span>
@@ -1573,13 +1573,13 @@
     let ghostsPreloaded = false;
     let lastGhostTime = 0;
 
-    // Preload ghosts during loading screen
+    // Preload ghosts during loading screen - MORE ghosts!
     function preloadGhosts() {
-        if (!ghostsPreloaded && loadingProgress > 50) {
+        if (!ghostsPreloaded && loadingProgress > 30) {
             ghostsPreloaded = true;
-            // Create ghosts during loading (they start falling immediately)
-            for (let i = 0; i < 6; i++) {
-                setTimeout(createFallingEmoji, i * 150); // Very fast preload (150ms)
+            // Create LOTS of ghosts during loading (12 ghosts!)
+            for (let i = 0; i < 12; i++) {
+                setTimeout(createFallingEmoji, i * 100); // Even faster preload (100ms)
             }
         }
     }
@@ -1588,18 +1588,22 @@
         if (musicStarted && !ghostsCreated && currentSlide === 0) {
             ghostsCreated = true;
             lastGhostTime = Date.now();
+            // Create 3 more ghosts immediately when game starts
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFallingEmoji, i * 200);
+            }
         }
     }
 
-    // Create emojis periodically on first slide (2x faster)
+    // Create emojis periodically on first slide - MUCH FASTER!
     let emojiInterval = setInterval(() => {
         preloadGhosts(); // Preload during loading
         checkAndCreateInitialGhosts();
 
-        // Create new ghost every 3 seconds (2x faster)
+        // Create new ghost every 1.5 seconds (4x faster!)
         if (currentSlide === 0 && musicStarted && ghostsCreated) {
             const now = Date.now();
-            if (now - lastGhostTime >= 3000) {
+            if (now - lastGhostTime >= 1500) {
                 createFallingEmoji();
                 lastGhostTime = now;
             }
