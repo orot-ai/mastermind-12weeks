@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Backup files
+소스코드_backup.html
+소스코드_최종.html
+소스코드_temp.html
+temp1.html
+
+# Python scripts
+소스코드_수정.py
+
+# Claude
+.claude/

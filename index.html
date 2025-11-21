@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRI: GAME START</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. CORE SETTINGS */
+        * { box-sizing: border-box; }
+
+        :root {
+            --bg-color: #101010;
+            --neon-green: #39FF14;
+            --neon-pink: #FF0099;
+            --neon-cyan: #00FFFF;
+            --neon-yellow: #FAFF00;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-white);
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 6px 100%;
+        }
+
+        /* ARCADE FRAME */
+        .arcade-frame {
+            width: 80vw;
+            height: 80vh;
+            background: #0a0a0a;
+            border: 8px solid #333;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 80px;
+        }
+
+        .arcade-frame::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan), var(--neon-pink), var(--neon-yellow));
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.3;
+        }
+
+        /* SLIDES WRAPPER */
+        .slides-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 2. SLIDE CONTAINER */
+        .slide-container {
+            min-width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+            padding: 25px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-container::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        .slide-container::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+
+        /* NAVIGATION */
+        .nav-btn {
+            position: fixed;
+            bottom: 35px;
+            background: rgba(57, 255, 20, 0.2);
+            border: 3px solid var(--neon-green);
+            color: var(--neon-green);
+            font-size: 32px;
+            padding: 15px 20px;
+            cursor: pointer;
+            z-index: 2000;
+            transition: all 0.3s;
+            font-family: 'VT323', monospace;
+            opacity: 0.7;
+            border-radius: 10px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(57, 255, 20, 0.4);
+            box-shadow: 0 0 20px var(--neon-green);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .nav-btn.prev { left: calc(50% - 180px); }
+        .nav-btn.next { right: calc(50% - 180px); }
+
+        .nav-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        /* SLIDE COUNTER */
+        .slide-counter {
+            position: fixed;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'VT323', monospace;
+            font-size: 28px;
+            color: var(--neon-cyan);
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px 35px;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 10px;
+        }
+
+        /* 3. TYPOGRAPHY */
+        h1 {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 90px;
+            line-height: 1.1;
+            margin: 0;
+            color: #fff;
+            font-weight: normal;
+            text-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        h2 {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 65px;
+            margin: 0 0 20px 0;
+            color: var(--neon-green);
+            font-weight: normal;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        h3 {
+            font-size: 38px;
+            font-weight: normal;
+            margin-bottom: 15px;
+            color: var(--neon-cyan);
+        }
+
+        p, li {
+            font-size: 28px;
+            line-height: 1.6;
+            color: #eee;
+            font-weight: normal;
+            margin-bottom: 12px;
+        }
+
+        .code-font {
+            font-family: 'VT323', monospace;
+            font-size: 32px;
+            color: var(--neon-green);
+        }
+
+        /* 4. PIXEL UI COMPONENTS */
+        .pixel-box {
+            background: #222;
+            border: 4px solid #fff;
+            padding: 30px;
+            position: relative;
+            box-shadow: 8px 8px 0px #000;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .pixel-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 0px #000;
+        }
+
+        .pixel-box.green { border-color: var(--neon-green); box-shadow: 8px 8px 0px rgba(57, 255, 20, 0.2); }
+        .pixel-box.pink { border-color: var(--neon-pink); box-shadow: 8px 8px 0px rgba(255, 0, 153, 0.2); }
+        .pixel-box.cyan { border-color: var(--neon-cyan); box-shadow: 8px 8px 0px rgba(0, 255, 255, 0.2); }
+        .pixel-box.yellow { border-color: var(--neon-yellow); box-shadow: 8px 8px 0px rgba(250, 255, 0, 0.2); }
+
+        /* HP Bar */
+        .hp-bar-container {
+            width: 100%;
+            height: 35px;
+            background: #333;
+            border: 3px solid #fff;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hp-bar-fill {
+            height: 100%;
+            background: var(--neon-green);
+            width: 100%;
+            animation: pulse 2s infinite;
+        }
+
+        /* 5. LAYOUT GRIDS */
+        .layout-split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; align-items: center; }
+        .layout-3-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; height: 100%; align-items: center; }
+        .layout-2x2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; height: calc(100% - 100px); }
+
+        .team-log-do-wan { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; height: calc(100% - 100px); }
+        .team-log-ji-eun { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; height: calc(100% - 100px); }
+        .team-log-eun-ah { height: calc(100% - 100px); width: 100%; }
+
+        /* 6. IMAGES & FRAMES */
+        .game-img-frame {
+            background: #000;
+            border: 4px solid var(--neon-cyan);
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .game-img-frame:hover {
+            border-width: 6px;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .game-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+
+        .img-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.9);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 22px;
+            border-top: 3px solid var(--neon-cyan);
+        }
+
+        /* 7. DECORATIONS */
+        .top-ui {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 28px;
+            color: var(--neon-yellow);
+            text-transform: uppercase;
+        }
+
+        .glitch-text { position: relative; animation: glitch 3s infinite; }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            2% { transform: translate(-2px, 2px) }
+            4% { transform: translate(2px, -2px) }
+            6% { transform: translate(0) }
+            100% { transform: translate(0) }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        ul { padding-left: 25px; margin: 0; }
+        li { list-style-type: square; margin-bottom: 18px; }
+        strong { color: var(--neon-yellow); }
+
+        /* CLICKABLE ELEMENTS */
+        .clickable {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clickable:hover {
+            transform: scale(1.05);
+        }
+
+        .clickable:active {
+            transform: scale(0.95);
+        }
+
+        /* FLOATING ICONS */
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        /* NEW BADGE */
+        .new-badge {
+            display: inline-block;
+            background: var(--neon-pink);
+            color: #000;
+            padding: 5px 15px;
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: 15px;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* BELIEF LAYOUT */
+        .belief-card {
+            background: linear-gradient(135deg, #1a0a1a 0%, #2a1a2a 100%);
+            border: 5px solid var(--neon-pink);
+            padding: 50px 60px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 153, 0.3), inset 0 0 50px rgba(255, 0, 153, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .belief-card::before {
+            content: '★';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            color: var(--neon-pink);
+            opacity: 0.3;
+            animation: rotate 10s linear infinite;
+        }
+
+        /* QUEST LOG ENHANCED */
+        .quest-box {
+            background: #1a1a1a;
+            border: 4px solid var(--neon-cyan);
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .quest-item {
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        /* FALLING EMOJIS ANIMATION */
+        .emoji-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .falling-emoji {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.8;
+            pointer-events: auto;
+            cursor: pointer;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 0 10px rgba(57, 255, 20, 0.5));
+            transition: filter 0.2s;
+        }
+
+        .falling-emoji:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 0, 153, 0.8));
+        }
+
+        @keyframes pixelTeleport {
+            0% { top: -300px; opacity: 1; }
+            5% { top: -200px; }
+            10% { top: -100px; }
+            15% { top: 0px; }
+            20% { top: 100px; }
+            25% { top: 200px; }
+            30% { top: 300px; }
+            35% { top: 400px; }
+            40% { top: 500px; }
+            45% { top: 600px; }
+            50% { top: 700px; }
+            55% { top: 800px; }
+            60% { top: 900px; }
+            65% { top: 1000px; }
+            70% { top: 1100px; }
+            75% { top: 1200px; }
+            80% { top: 1300px; }
+            85% { top: 1400px; }
+            90% { top: 1500px; }
+            95% { top: 1600px; }
+            100% { top: 100vh; opacity: 0; }
+        }
+
+        @keyframes wiggle {
+            0% { transform: translateX(0px); }
+            25% { transform: translateX(-35px); }
+            50% { transform: translateX(0px); }
+            75% { transform: translateX(35px); }
+            100% { transform: translateX(0px); }
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* BACKGROUND SHAPES */
+        .bg-shape {
+            position: absolute;
+            opacity: 1;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .bg-shape:hover {
+            transform: scale(1.2);
+        }
+
+        /* LOADING SCREEN */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-bar-container {
+            width: 400px;
+            height: 40px;
+            border: 4px solid var(--neon-green);
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+        }
+
+        .loading-bar-fill {
+            height: 100%;
+            background: var(--neon-green);
+            width: 0%;
+            transition: width 0.3s steps(10);
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .loading-dots {
+            animation: blink 1.5s infinite;
+        }
+
+        /* SCORE DISPLAY */
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-family: 'VT323', monospace;
+            font-size: 48px;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border: 4px solid var(--neon-yellow);
+            box-shadow: 0 0 20px rgba(250, 255, 0, 0.5);
+            display: none;
+        }
+
+        .score-display.visible {
+            display: block;
+        }
+
+        .score-popup {
+            position: absolute;
+            font-family: 'VT323', monospace;
+            font-size: 36px;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+            pointer-events: none;
+            animation: scoreFloat 1s ease-out forwards;
+            z-index: 1001;
+        }
+
+        @keyframes scoreFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        @keyframes rotateStop {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1) rotate(var(--rotation)); }
+            10% { transform: scale(1.3, 0.7) rotate(var(--rotation)); }
+            30% { transform: scale(0.8, 1.2) rotate(var(--rotation)); }
+            50% { transform: scale(1.1, 0.9) rotate(var(--rotation)); }
+            70% { transform: scale(0.95, 1.05) rotate(var(--rotation)); }
+            90% { transform: scale(1.02, 0.98) rotate(var(--rotation)); }
+        }
+
+        /* STATS DISPLAY */
+        .stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(255, 0, 153, 0.1);
+            border: 2px solid var(--neon-pink);
+            margin: 15px 0;
+            font-size: 36px;
+            transition: all 0.3s;
+        }
+
+        .stat-row:hover {
+            background: rgba(255, 0, 153, 0.2);
+            transform: translateX(10px);
+        }
+
+        .stat-number {
+            font-family: 'VT323', monospace;
+            font-size: 48px;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loading-screen">
+    <h1 style="font-family: 'VT323', monospace; font-size: 80px; color: var(--neon-green); margin-bottom: 50px; text-shadow: 0 0 30px var(--neon-green);">
+        LOADING GAME<span class="loading-dots">...</span>
+    </h1>
+    <div class="loading-bar-container">
+        <div class="loading-bar-fill" id="loading-bar"></div>
+    </div>
+    <p style="font-family: 'VT323', monospace; font-size: 28px; color: var(--neon-cyan); margin-top: 30px;">
+        PRESS ANY KEY TO START
+    </p>
+</div>
+
+<!-- SCORE DISPLAY -->
+<div class="score-display" id="score-display">
+    SCORE: <span id="score-value">0</span>
+</div>
+
+<!-- ARCADE FRAME WRAPPER -->
+<div class="arcade-frame">
+
+<!-- NAVIGATION BUTTONS -->
+<button class="nav-btn prev" onclick="prevSlide()">◀</button>
+<button class="nav-btn next" onclick="nextSlide()">▶</button>
+
+<!-- SLIDE COUNTER -->
+<div class="slide-counter">
+    <span id="current-slide">1</span> / <span id="total-slides">15</span>
+</div>
+
+<!-- SLIDES WRAPPER -->
+<div class="slides-wrapper" id="slides-wrapper">
+
+<!-- SLIDE 1: START SCREEN -->
+<div class="slide-container" style="justify-content: center; text-align: center; position: relative;">
+    <!-- BACKGROUND SHAPES CONTAINER -->
+    <div id="bg-shapes-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
+
+    <!-- FALLING EMOJIS CONTAINER -->
+    <div class="emoji-container" id="emoji-container"></div>
+
+    <div class="top-ui" style="position: relative; z-index: 10;">
+        <span>PLAYER: MIRI</span>
+        <span>CREDITS: 12 WEEKS</span>
+    </div>
+    <div style="margin-top: 50px; position: relative; z-index: 10;">
+        <h2 style="font-size: 45px; color: #fff; margin-bottom: 15px;">SYSTEM REBOOT...</h2>
+        <h1 class="glitch-text" style="font-size: 130px; color: var(--neon-green); text-shadow: 0 0 25px var(--neon-green);">순수한 상태</h1>
+        <h1 style="font-size: 90px;">세상을 바꾼다</h1>
+    </div>
+    <div style="margin-top: 80px; position: relative; z-index: 10;">
+        <span class="code-font clickable" style="font-size: 45px; animation: blink 1s infinite;" onclick="nextSlide()">> PRESS START BUTTON</span>
+    </div>
+</div>
+
+<!-- SLIDE 2: BELIEF (The Core) - NEW LAYOUT -->
+<div class="slide-container" style="justify-content: center; align-items: center;">
+    <div class="top-ui"><span>LEVEL 1</span><span>CORE_BELIEF</span></div>
+    <div class="belief-card">
+        <h2 style="font-size: 55px; margin-bottom: 30px;">1. 신념 (BELIEF)</h2>
+        <h1 class="floating-icon" style="font-size: 90px; color: var(--neon-green); margin: 30px 0; text-shadow: 0 0 30px var(--neon-green);">순수함 = 행복</h1>
+        <p style="font-size: 32px; line-height: 1.6; margin-top: 35px;">
+            모든 두려움을 걷어내고<br>
+            진짜 나를 마주할 때,<br>
+            <strong style="font-size: 38px; color: var(--neon-pink);">우리는 세상을 바꾼다.</strong>
+        </p>
+    </div>
+</div>
+
+<!-- SLIDE 3: MISSION (Main Quest) - ENHANCED -->
+<div class="slide-container">
+    <div class="top-ui"><span>LEVEL 2</span><span>MAIN_QUEST</span></div>
+    <h2 style="color: var(--neon-cyan); font-size: 50px; margin-bottom: 15px;">2. 사명 (MISSION)</h2>
+    <div class="layout-split" style="gap: 20px; height: calc(100% - 100px);">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+            <h1 class="clickable" style="font-size: 55px; line-height: 1.3; margin-bottom: 20px; text-shadow: 0 0 20px var(--neon-cyan);">본질에 집중할<br>힘을 되찾아준다</h1>
+            <div class="hp-bar-container"><div class="hp-bar-fill" style="width: 100%; background: var(--neon-cyan);"></div></div>
+            <div style="margin-top: 10px; font-family: 'VT323'; font-size: 28px; color: var(--neon-cyan);">TARGET: LIBERATION</div>
+        </div>
+        <div class="quest-box" style="padding: 25px; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="font-size: 32px; margin-bottom: 20px;"><i class="fa-solid fa-scroll floating-icon"></i> Quest Log</h3>
+            <div class="quest-item" style="padding: 15px; margin: 10px 0;">
+                <strong style="font-size: 26px;">Grand Mission:</strong><br>
+                <span style="font-size: 24px;">고객을 '비본질적 업무'에서 해방시킨다.</span>
+            </div>
+            <div class="quest-item" style="padding: 15px; margin: 10px 0;">
+                <strong style="font-size: 26px;">Phase 1 Mission:</strong><br>
+                <span style="font-size: 24px;">고객 가치가 성장하는 구조를 만든다.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4: PRINCIPLES (Rules of Play) -->
+<div class="slide-container">
+    <div class="top-ui"><span>LEVEL 3</span><span>GAME_RULES</span></div>
+    <h2 style="font-size: 70px; margin-bottom: 30px;">3. 절대 원칙 (PRINCIPLES)</h2>
+    <div class="layout-3-col">
+        <div class="pixel-box green clickable">
+            <i class="fa-solid fa-skull floating-icon" style="font-size: 70px; color: var(--neon-green); margin-bottom: 25px;"></i>
+            <h3 style="font-size: 42px;">단순성 최우선</h3>
+            <p style="font-size: 30px;">기능 추가? NO.<br>불필요 제거? YES.<br>힘은 <strong>'명료함'</strong>에서 나온다.</p>
+        </div>
+        <div class="pixel-box pink clickable">
+            <i class="fa-solid fa-bullseye floating-icon" style="font-size: 70px; color: var(--neon-pink); margin-bottom: 25px;"></i>
+            <h3 style="font-size: 42px;">목적지 정렬</h3>
+            <p style="font-size: 30px;">모든 의사결정은<br><strong>Phase 2 (보편 SaaS)</strong>에<br>기여해야 한다.</p>
+        </div>
+        <div class="pixel-box cyan clickable">
+            <i class="fa-solid fa-ban floating-icon" style="font-size: 70px; color: var(--neon-cyan); margin-bottom: 25px;"></i>
+            <h3 style="font-size: 42px;">감정 과열 STOP</h3>
+            <p style="font-size: 30px;">감정이 끓으면 멈춘다.<br>시스템 과부하 시<br>강제 휴식(이완).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: STRATEGY -->
+<div class="slide-container">
+    <div class="top-ui"><span>LEVEL 3-2</span><span>STRATEGY</span></div>
+    <h2 style="font-size: 70px; margin-bottom: 30px;">실행 전략 (STRATEGY)</h2>
+    <div class="layout-split">
+        <div class="pixel-box clickable">
+            <h3 style="font-size: 42px;"><i class="fa-solid fa-users floating-icon"></i> 꿈의 고객 집중</h3>
+            <p style="font-size: 32px; line-height: 1.7;">'자잘한 타겟'은 소음이다.<br>내 사명에 공명하는<br>사람에게만 집중한다.</p>
+        </div>
+        <div class="pixel-box clickable">
+            <h3 style="font-size: 42px;"><i class="fa-solid fa-list-ol floating-icon"></i> 우선순위 & 연료</h3>
+            <ul>
+                <li style="font-size: 30px;">가장 중요한 것 <strong>하나씩만</strong> 처리.</li>
+                <li style="font-size: 30px;">멀티태스킹 금지.</li>
+                <li style="font-size: 30px;">행동의 연료가 '인정욕구'인지 '사명'인지 확인.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6: TRIPLE SYSTEM -->
+<div class="slide-container">
+    <div class="top-ui"><span>LEVEL 4</span><span>SKILL_TREE</span></div>
+    <h2 style="font-size: 70px; margin-bottom: 30px;">4. 트리플 시스템</h2>
+    <div class="layout-3-col">
+        <div class="pixel-box green clickable" style="align-items: center; text-align: center;">
+            <h1 class="floating-icon" style="color: var(--neon-green); margin-bottom: 25px; font-size: 100px;">1</h1>
+            <h3 style="font-size: 42px;">부트스트래핑</h3>
+            <p style="font-size: 30px;">고가 맞춤형 CRM<br><strong>월 1,000만 확보</strong><br>시장 검증</p>
+        </div>
+        <div class="pixel-box cyan clickable" style="align-items: center; text-align: center;">
+            <h1 class="floating-icon" style="color: var(--neon-cyan); margin-bottom: 25px; font-size: 100px;">2</h1>
+            <h3 style="font-size: 42px;">보편 SaaS</h3>
+            <p style="font-size: 30px;">공통 패턴 추출<br>리스크 최소화<br><strong>자동화 시스템</strong></p>
+        </div>
+        <div class="pixel-box pink clickable" style="align-items: center; text-align: center;">
+            <h1 class="floating-icon" style="color: var(--neon-pink); margin-bottom: 25px; font-size: 100px;">3</h1>
+            <h3 style="font-size: 42px;">엔터프라이즈</h3>
+            <p style="font-size: 30px;">대규모 솔루션<br>생태계 확장<br><strong>최종 보스</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7: CASH FLOW -->
+<div class="slide-container">
+    <div class="top-ui"><span>LEVEL 5</span><span>GOLD_FARMING</span></div>
+    <h2 style="font-size: 55px; margin-bottom: 20px;">5. 현금 흐름 계획</h2>
+    <div class="layout-split" style="gap: 20px;">
+        <div class="pixel-box green clickable">
+            <h3 style="font-size: 38px;"><i class="fa-solid fa-coins floating-icon"></i> 수익 구조</h3>
+            <p style="font-size: 42px; margin: 30px 0; text-shadow: 0 0 10px var(--neon-green);">
+                프로젝트 당 <strong>500만원</strong><br>
+                X 2건 = <strong>월 1,000만원</strong>
+            </p>
+            <div class="hp-bar-container"><div class="hp-bar-fill" style="width: 40%;"></div></div>
+            <p class="code-font" style="text-align: right; font-size: 30px; margin-top: 12px;">GOAL: 10,000,000 KRW</p>
+        </div>
+        <div class="pixel-box clickable">
+            <h3 style="font-size: 38px;"><i class="fa-solid fa-robot floating-icon"></i> 자동화 무기</h3>
+            <p style="font-size: 32px;"><strong>Notion + Make</strong> (No-Code)</p>
+            <hr style="border-color: #555; margin: 20px 0;">
+            <p style="font-size: 24px; color: #aaa;">* 비용 관리 최우선 (구독 다이어트)<br>* 현금 잔고 확인 습관화</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: TEAM LOG - DO-WAN -->
+<div class="slide-container">
+    <div class="top-ui"><span>TEAM_LOG</span><span>PLAYER_01: DO-WAN</span></div>
+    <h2 style="color: var(--neon-pink); font-size: 38px; margin-bottom: 8px;">도완 대표님</h2>
+
+    <div class="team-log-do-wan">
+        <div class="game-img-frame clickable">
+            <img src="도완대표님 과제 시스템.png" alt="Youtube System">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">유튜브 과제 제출 시스템</div>
+        </div>
+        <div class="game-img-frame clickable" onclick="window.open('https://10x-boosteroid-pt.vercel.app/', '_blank')">
+            <img src="도완대표님 랜딩페이지.png" alt="Boosteroid Landing">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">10X Boosteroid 랜딩페이지 🔗</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9: TEAM LOG - JI-EUN -->
+<div class="slide-container">
+    <div class="top-ui"><span>TEAM_LOG</span><span>PLAYER_02: JI-EUN</span></div>
+    <h2 style="color: var(--neon-pink); font-size: 38px; margin-bottom: 8px;">지은 대표님</h2>
+
+    <div class="team-log-ji-eun">
+        <div class="game-img-frame clickable">
+            <img src="지은대표님 릴스 제작 과제 시스템.png" alt="Reels System">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">릴스 과제 시스템</div>
+        </div>
+        <div class="game-img-frame clickable" onclick="window.open('https://www.jjeeneazy.co.kr/', '_blank')">
+            <img src="지은대표님 랜딩페이지.png" alt="Landing Page">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">랜딩페이지 제작</div>
+        </div>
+        <div class="game-img-frame clickable">
+            <img src="지은대표님 신라비CRM.png" alt="CRM Setup">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">신라비 CRM 세팅</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10: TEAM LOG - EUN-AH -->
+<div class="slide-container">
+    <div class="top-ui"><span>TEAM_LOG</span><span>PLAYER_03: EUN-AH</span></div>
+    <h2 style="color: var(--neon-pink); font-size: 38px; margin-bottom: 8px;">은아 대표님</h2>
+
+    <div class="team-log-eun-ah">
+        <div class="game-img-frame clickable" style="border-color: var(--neon-pink);">
+            <img src="은아대표님 머니코드.png" alt="Money Code Funnel">
+            <div class="img-label" style="background: var(--neon-pink); font-size: 22px; padding: 8px;">머니코드 진단 퍼널 (설계 및 구현)</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: PRODUCT LOG -->
+<div class="slide-container">
+    <div class="top-ui"><span>ITEM_SHOP</span><span>TEMPLATES</span></div>
+    <h2 style="color: var(--neon-yellow); font-size: 38px; margin-bottom: 8px;">제품 개발 (TEMPLATES)</h2>
+    <div class="layout-2x2">
+        <div class="game-img-frame clickable">
+            <img src="가계부 템플릿.png" alt="Account Book">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">기본 가계부</div>
+        </div>
+        <div class="game-img-frame clickable">
+            <img src="디지털월세관리템플릿.png" alt="Rent Manager">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">디지털 월세 관리</div>
+        </div>
+        <div class="game-img-frame clickable">
+            <img src="마음씀씀이.png" alt="Mind Ledger">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">마음 씀씀이</div>
+        </div>
+        <div class="game-img-frame clickable">
+            <img src="통합가계부.png" alt="Integrated Ledger">
+            <div class="img-label" style="font-size: 22px; padding: 8px;">통합 가계부</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 12: SYSTEM & STATS - ENHANCED GAMING STYLE -->
+<div class="slide-container">
+    <div class="top-ui"><span>SCORE_BOARD</span><span>STATS</span></div>
+    <h2 style="color: var(--neon-yellow); font-size: 38px; margin-bottom: 10px;">시스템 및 성과</h2>
+    <div class="layout-split" style="height: calc(100% - 55px);">
+        <div class="game-img-frame clickable">
+            <img src="Make Your CRM.png" alt="Make Your CRM">
+            <div class="img-label" style="background: var(--neon-pink);">
+                Make Your CRM (세팅 지원)
+                <span class="new-badge">NEW</span>
+            </div>
+        </div>
+        <div class="pixel-box green">
+            <h3 style="font-size: 42px; margin-bottom: 30px; text-align: center;">
+                <i class="fa-solid fa-trophy floating-icon" style="color: var(--neon-yellow);"></i>
+                GROWTH STATS
+            </h3>
+            <div class="stat-row clickable">
+                <span><i class="fa-solid fa-comments"></i> 오픈톡방</span>
+                <span class="stat-number">+158명</span>
+            </div>
+            <div class="stat-row clickable">
+                <span><i class="fa-brands fa-threads"></i> 스레드</span>
+                <span class="stat-number">+500명</span>
+            </div>
+            <div class="stat-row clickable">
+                <span><i class="fa-brands fa-youtube"></i> 유튜브</span>
+                <span class="stat-number">+363명</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 13: MINDSET SHIFT -->
+<div class="slide-container">
+    <div class="top-ui"><span>SYSTEM_LOG</span><span>UPDATE_HISTORY</span></div>
+    <h2 style="font-size: 55px; margin-bottom: 20px;">12주간의 패치 노트 (MINDSET)</h2>
+    <div class="layout-3-col">
+        <div class="pixel-box clickable" style="opacity: 0.6; border-style: dashed;">
+            <h3 style="color: #aaa; font-size: 36px;">Ver 1.0 (과거)</h3>
+            <p style="color: var(--neon-pink); font-size: 28px;">"증명의 단계"</p>
+            <ul style="font-size: 22px; line-height: 1.5;">
+                <li>인정욕구가 연료</li>
+                <li>쓸모 증명에 급급</li>
+                <li>멀티태스킹 → 방전</li>
+            </ul>
+        </div>
+        <div class="pixel-box cyan clickable">
+            <h3 style="font-size: 36px;">Ver 1.5 (중간)</h3>
+            <p style="color: var(--neon-cyan); font-size: 28px;">"언어화의 단계"</p>
+            <ul style="font-size: 22px; line-height: 1.5;">
+                <li>사명/원칙 필터 장착</li>
+                <li>실패 = 데이터 로그</li>
+                <li>패턴 분석 시작</li>
+            </ul>
+        </div>
+        <div class="pixel-box green clickable">
+            <h3 style="font-size: 36px;">Ver 2.0 (현재)</h3>
+            <p style="color: var(--neon-green); font-size: 28px;">"시스템 빌더"</p>
+            <ul style="font-size: 22px; line-height: 1.5;">
+                <li><strong>비즈니스 파트너</strong></li>
+                <li>사명 정렬 시스템 구축</li>
+                <li>설문 기반 타겟팅</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 14: MESSAGE -->
+<div class="slide-container" style="justify-content: center; text-align: center;">
+    <div class="top-ui"><span>MESSAGE</span><span>TO_TEAM</span></div>
+    <div style="margin-bottom: 40px;">
+        <i class="fa-solid fa-gamepad floating-icon" style="font-size: 80px; color: var(--neon-pink);"></i>
+    </div>
+    <p style="font-size: 36px; max-width: 1000px; margin: 0 auto; line-height: 1.6;">
+        "아직 성과가 안 보여서 답답하신가요?<br>
+        저도 그렇습니다.<br><br>
+        하지만 느껴집니다.<br>
+        우리 안에 <strong style="font-size: 50px; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green);">엄청난 에너지</strong>가 모이고 있다는 것을."
+    </p>
+    <div style="margin-top: 50px;">
+        <h1 class="glitch-text clickable" style="font-size: 75px; color: var(--neon-cyan);">곧 터집니다. 🔥</h1>
+    </div>
+</div>
+
+<!-- SLIDE 15: ENDING -->
+<div class="slide-container" style="justify-content: center; text-align: center;">
+    <h1 class="clickable" style="font-size: 160px; color: var(--neon-yellow); text-shadow: 0 0 30px var(--neon-yellow);">GAME OVER?</h1>
+    <h2 style="font-size: 70px; color: #fff; margin-top: 30px;">CONTINUE...</h2>
+    <div style="margin-top: 70px;">
+        <span class="code-font clickable" style="font-size: 55px; animation: blink 1s infinite; color: var(--neon-green);">[ Q & A ]</span>
+    </div>
+</div>
+
+</div>
+<!-- END SLIDES WRAPPER -->
+
+</div>
+<!-- END ARCADE FRAME -->
+
+<script>
+    let currentSlide = 0;
+    const totalSlides = 15;
+    const slidesWrapper = document.getElementById('slides-wrapper');
+    const currentSlideEl = document.getElementById('current-slide');
+
+    // Audio setup
+    const bgMusic = new Audio('/Users/miri/마스터마인드 발표/1121. 슬라임의 모험.mp3');
+    const continueSound = new Audio('/Users/miri/마스터마인드 발표/suck1.mp3');
+    const clickSound = new Audio('/Users/miri/마스터마인드 발표/switch1.mp3');
+
+    bgMusic.loop = true;
+    bgMusic.volume = 0.3;
+
+    // Loading screen logic
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingBar = document.getElementById('loading-bar');
+    let loadingProgress = 0;
+    let musicStarted = false;
+
+    // Simulate loading
+    const loadingInterval = setInterval(() => {
+        loadingProgress += 10;
+        loadingBar.style.width = loadingProgress + '%';
+
+        if (loadingProgress >= 100) {
+            clearInterval(loadingInterval);
+        }
+    }, 150);
+
+    // Start game on any key press or click after loading
+    function startGame() {
+        if (loadingProgress >= 100 && !musicStarted) {
+            musicStarted = true;
+            bgMusic.play().catch(e => console.log('Auto-play prevented:', e));
+            loadingScreen.classList.add('hidden');
+        }
+    }
+
+    document.addEventListener('keydown', startGame);
+    document.addEventListener('click', startGame);
+
+    function updateSlide() {
+        slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+        currentSlideEl.textContent = currentSlide + 1;
+
+        const prevBtn = document.querySelector('.nav-btn.prev');
+        const nextBtn = document.querySelector('.nav-btn.next');
+
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+
+        // Show/hide score display
+        if (currentSlide === 0) {
+            scoreDisplay.classList.add('visible');
+        } else {
+            scoreDisplay.classList.remove('visible');
+        }
+
+        // Stop background music when leaving first slide
+        if (currentSlide > 0) {
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+        }
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides - 1) {
+            // Play continue sound if leaving first slide
+            if (currentSlide === 0) {
+                continueSound.play().catch(e => console.log('Sound error:', e));
+            } else {
+                clickSound.play().catch(e => console.log('Sound error:', e));
+            }
+            currentSlide++;
+            updateSlide();
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 0) {
+            clickSound.play().catch(e => console.log('Sound error:', e));
+            currentSlide--;
+            updateSlide();
+
+            // Resume background music when returning to first slide
+            if (currentSlide === 0) {
+                bgMusic.play().catch(e => console.log('Sound error:', e));
+            }
+        }
+    }
+
+    // Score system (declare before updateSlide)
+    let score = 0;
+    const scoreDisplay = document.getElementById('score-display');
+    const scoreValue = document.getElementById('score-value');
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === ' ') {
+            e.preventDefault();
+            nextSlide();
+        }
+    });
+
+    // Initialize
+    updateSlide();
+
+    // Add click sound effect for clickable elements
+    const clickables = document.querySelectorAll('.clickable');
+    clickables.forEach(el => {
+        el.addEventListener('click', function() {
+            clickSound.play().catch(e => console.log('Sound error:', e));
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 100);
+        });
+    });
+
+    function addScore(points, x, y) {
+        score += points;
+        scoreValue.textContent = score;
+
+        // Show score display if not visible
+        if (currentSlide === 0) {
+            scoreDisplay.classList.add('visible');
+        }
+
+        // Create floating score popup
+        const popup = document.createElement('div');
+        popup.className = 'score-popup';
+        popup.textContent = '+' + points;
+        popup.style.left = x + 'px';
+        popup.style.top = y + 'px';
+        document.body.appendChild(popup);
+
+        setTimeout(() => popup.remove(), 1000);
+    }
+
+    // Falling pixel ghost animation (only on first slide)
+    const emojiContainer = document.getElementById('emoji-container');
+
+    // Single pixel ghost emoji from Twemoji
+    const ghostEmoji = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f47b.svg'; // 👻 Ghost
+
+    // Fixed horizontal positions for consistent layout (3 columns, reduced from 5)
+    const positions = ['20%', '50%', '80%'];
+    let usedPositions = new Set();
+
+    function createFallingEmoji() {
+        if (currentSlide !== 0) return; // Only on first slide
+
+        // Get available position
+        let availablePositions = positions.filter(pos => !usedPositions.has(pos));
+        if (availablePositions.length === 0) {
+            usedPositions.clear();
+            availablePositions = [...positions];
+        }
+
+        const position = availablePositions[Math.floor(Math.random() * availablePositions.length)];
+        usedPositions.add(position);
+
+        const emoji = document.createElement('img');
+        emoji.className = 'falling-emoji';
+        emoji.src = ghostEmoji;
+        emoji.style.left = position;
+        emoji.style.top = '-300px'; // Start completely off-screen
+
+        // Combined animations: extremely slow falling + large wiggle movement (heavy stop-motion style)
+        const fallDuration = Math.random() * 8 + 18; // 18-26 seconds (extremely slow)
+        const wiggleDuration = Math.random() * 2 + 3; // 3-5 seconds (slower wiggle)
+        emoji.style.animation = `pixelTeleport ${fallDuration}s steps(12, end) forwards, wiggle ${wiggleDuration}s steps(2, end) infinite`;
+        emoji.style.animationDelay = Math.random() * 3 + 's';
+
+        // Click to explode
+        emoji.addEventListener('click', function(e) {
+            e.stopPropagation();
+            continueSound.play().catch(err => console.log('Sound error:', err));
+
+            // Add score with popup at click position
+            addScore(100, e.clientX, e.clientY);
+
+            this.style.animation = 'explode 0.3s ease-out forwards';
+            usedPositions.delete(position);
+            setTimeout(() => this.remove(), 300);
+        });
+
+        emojiContainer.appendChild(emoji);
+
+        // Remove emoji after animation and free up position
+        const removeTimeout = setTimeout(() => {
+            if (emoji.parentElement) {
+                emoji.remove();
+                usedPositions.delete(position);
+            }
+        }, (fallDuration + 2) * 1000);
+
+        // Store timeout so we can clear it if clicked
+        emoji.removeTimeout = removeTimeout;
+    }
+
+    // Create initial emojis when game starts
+    let ghostsCreated = false;
+    let lastGhostTime = 0;
+
+    function checkAndCreateInitialGhosts() {
+        if (musicStarted && !ghostsCreated && currentSlide === 0) {
+            ghostsCreated = true;
+            // Create ghosts immediately (no delay)
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFallingEmoji, i * 500); // Faster initial spawn (500ms)
+            }
+            lastGhostTime = Date.now();
+        }
+    }
+
+    // Create emojis periodically on first slide (very slow rate)
+    let emojiInterval = setInterval(() => {
+        checkAndCreateInitialGhosts();
+
+        // Only create new ghost every 6 seconds
+        if (currentSlide === 0 && musicStarted && ghostsCreated) {
+            const now = Date.now();
+            if (now - lastGhostTime >= 6000) {
+                createFallingEmoji();
+                lastGhostTime = now;
+            }
+        }
+    }, 100); // Check every 100ms for faster response
+
+    // Background shapes animation (only on first slide)
+    const bgShapesContainer = document.getElementById('bg-shapes-container');
+    const shapeColors = [
+        'rgba(57, 255, 20, 0.15)',   // neon green
+        'rgba(0, 255, 255, 0.15)',   // neon cyan
+        'rgba(255, 0, 153, 0.15)',   // neon pink
+        'rgba(250, 255, 0, 0.15)'    // neon yellow
+    ];
+
+    // Fixed star positions (left and right sides)
+    const starPositions = [
+        { left: 5, top: 15 },   // Left top
+        { left: 8, top: 50 },   // Left middle
+        { left: 5, top: 75 },   // Left bottom
+        { left: 92, top: 25 },  // Right top
+        { left: 90, top: 65 }   // Right bottom
+    ];
+    let currentStarIndex = 0;
+
+    function createBackgroundShape() {
+        if (currentSlide !== 0) return;
+        if (currentStarIndex >= starPositions.length) return; // Stop after 5 stars
+
+        const size = Math.random() * 40 + 50; // 50-90px
+        const shape = document.createElement('div');
+        shape.className = 'bg-shape';
+
+        // Use fixed position from array
+        const position = starPositions[currentStarIndex];
+        currentStarIndex++;
+
+        shape.style.left = position.left + '%';
+        shape.style.top = position.top + '%';
+        shape.style.pointerEvents = 'auto';
+        shape.style.zIndex = '5';
+
+        const rotationDuration = Math.random() * 10 + 15; // 15-25 seconds
+        const currentRotation = Math.random() * 360;
+        shape.style.setProperty('--rotation', currentRotation + 'deg');
+
+        // Only stars - fully visible with better click area
+        shape.innerHTML = '⭐';
+        shape.style.fontSize = size + 'px';
+        shape.style.lineHeight = '1';
+        shape.style.display = 'inline-block';
+        shape.style.userSelect = 'none';
+
+        // Stop-motion rotation
+        shape.style.animation = `rotateStop ${rotationDuration}s steps(4, end) infinite`;
+
+        // Click to bounce
+        shape.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            clickSound.play().catch(err => console.log('Sound error:', err));
+            const currentRotation = this.style.getPropertyValue('--rotation');
+            this.style.animation = `bounce 0.6s ease-out`;
+            setTimeout(() => {
+                if (this.parentElement) {
+                    this.style.animation = `rotateStop ${rotationDuration}s steps(4, end) infinite`;
+                }
+            }, 600);
+        });
+
+        bgShapesContainer.appendChild(shape);
+    }
+
+    // Create initial stars when game starts
+    let starsCreated = false;
+    function checkAndCreateInitialStars() {
+        if (musicStarted && !starsCreated && currentSlide === 0) {
+            starsCreated = true;
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createBackgroundShape, i * 300);
+            }
+        }
+    }
+
+    // Check for star creation
+    setInterval(() => {
+        checkAndCreateInitialStars();
+    }, 100); // Check every 100ms
+</script>
+
+</body>
+</html>
