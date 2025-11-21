@@ -1571,22 +1571,22 @@
     function checkAndCreateInitialGhosts() {
         if (musicStarted && !ghostsCreated && currentSlide === 0) {
             ghostsCreated = true;
-            // Create ghosts immediately (no delay)
-            for (let i = 0; i < 3; i++) {
-                setTimeout(createFallingEmoji, i * 500); // Faster initial spawn (500ms)
+            // Create more ghosts immediately (2x)
+            for (let i = 0; i < 6; i++) {
+                setTimeout(createFallingEmoji, i * 400); // Faster initial spawn
             }
             lastGhostTime = Date.now();
         }
     }
 
-    // Create emojis periodically on first slide (very slow rate)
+    // Create emojis periodically on first slide (2x faster)
     let emojiInterval = setInterval(() => {
         checkAndCreateInitialGhosts();
 
-        // Only create new ghost every 6 seconds
+        // Create new ghost every 3 seconds (2x faster)
         if (currentSlide === 0 && musicStarted && ghostsCreated) {
             const now = Date.now();
-            if (now - lastGhostTime >= 6000) {
+            if (now - lastGhostTime >= 3000) {
                 createFallingEmoji();
                 lastGhostTime = now;
             }
