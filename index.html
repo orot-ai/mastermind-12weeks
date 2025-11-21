@@ -1570,21 +1570,30 @@
 
     // Create initial emojis when game starts
     let ghostsCreated = false;
+    let ghostsPreloaded = false;
     let lastGhostTime = 0;
+
+    // Preload ghosts during loading screen
+    function preloadGhosts() {
+        if (!ghostsPreloaded && loadingProgress > 50) {
+            ghostsPreloaded = true;
+            // Create ghosts during loading (they start falling immediately)
+            for (let i = 0; i < 6; i++) {
+                setTimeout(createFallingEmoji, i * 150); // Very fast preload (150ms)
+            }
+        }
+    }
 
     function checkAndCreateInitialGhosts() {
         if (musicStarted && !ghostsCreated && currentSlide === 0) {
             ghostsCreated = true;
-            // Create more ghosts immediately with faster intervals
-            for (let i = 0; i < 6; i++) {
-                setTimeout(createFallingEmoji, i * 200); // Much faster initial spawn (200ms)
-            }
             lastGhostTime = Date.now();
         }
     }
 
     // Create emojis periodically on first slide (2x faster)
     let emojiInterval = setInterval(() => {
+        preloadGhosts(); // Preload during loading
         checkAndCreateInitialGhosts();
 
         // Create new ghost every 3 seconds (2x faster)
