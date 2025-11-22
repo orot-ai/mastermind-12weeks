@@ -1017,7 +1017,7 @@
 
 <!-- SLIDE COUNTER -->
 <div class="slide-counter">
-    <span id="current-slide">1</span> / <span id="total-slides">19</span>
+    <span id="current-slide">1</span> / <span id="total-slides">20</span>
 </div>
 
 <!-- SLIDES WRAPPER -->
@@ -1443,41 +1443,49 @@
     </div>
 </div>
 
-<!-- SLIDE 14: LEARNINGS & REFLECTIONS -->
-<div class="slide-container" style="padding-bottom: 140px;">
-    <div class="top-ui"><span>ACHIEVEMENT_LOG</span><span>WISDOM_GAINED</span></div>
-    <h2 style="font-size: 36px; margin-bottom: 10px; color: var(--neon-yellow);">💭 12주간 느낀점</h2>
-    <div class="layout-2x2" style="gap: 10px; height: auto;">
+<!-- SLIDE 14: LEARNINGS & REFLECTIONS - Part 1 -->
+<div class="slide-container">
+    <div class="top-ui"><span>ACHIEVEMENT_LOG</span><span>WISDOM_GAINED_1</span></div>
+    <h2 style="font-size: 50px; margin-bottom: 20px; color: var(--neon-yellow);">💭 12주간 느낀점 - 1/2</h2>
+    <div class="layout-split" style="gap: 20px;">
         <div class="pixel-box green clickable">
-            <h3 style="font-size: 22px; color: var(--neon-green);"><i class="fa-solid fa-heart"></i> 신념의 재확인</h3>
-            <p style="font-size: 16px; line-height: 1.35; margin-top: 5px;">
-                "순수한 상태에 있는 사람이 세상을 바꾼다"<br>
-                <strong style="color: var(--neon-green);">흔들리지 않는 중심</strong>의 중요성.<br>
+            <h3 style="font-size: 32px; color: var(--neon-green);"><i class="fa-solid fa-heart"></i> 신념의 재확인</h3>
+            <p style="font-size: 24px; line-height: 1.5; margin-top: 10px;">
+                "순수한 상태에 있는 사람이 세상을 바꾼다"<br><br>
+                <strong style="color: var(--neon-green);">흔들리지 않는 중심</strong>의 중요성.<br><br>
                 투자금·외부 압력으로 신념이 흔들리면 사업도 무너진다.
             </p>
         </div>
         <div class="pixel-box cyan clickable">
-            <h3 style="font-size: 22px; color: var(--neon-cyan);"><i class="fa-solid fa-compass"></i> 원칙의 힘</h3>
-            <p style="font-size: 16px; line-height: 1.35; margin-top: 5px;">
-                <strong style="color: var(--neon-cyan);">원칙을 먼저 세우는 것</strong>의 중요성.<br>
-                실패 전에 실패를 통과하는 방법.<br>
+            <h3 style="font-size: 32px; color: var(--neon-cyan);"><i class="fa-solid fa-compass"></i> 원칙의 힘</h3>
+            <p style="font-size: 24px; line-height: 1.5; margin-top: 10px;">
+                <strong style="color: var(--neon-cyan);">원칙을 먼저 세우는 것</strong>의 중요성.<br><br>
+                실패 전에 실패를 통과하는 방법.<br><br>
                 원칙은 나침반이자 안전장치.
             </p>
         </div>
+    </div>
+</div>
+
+<!-- SLIDE 14-2: LEARNINGS & REFLECTIONS - Part 2 -->
+<div class="slide-container">
+    <div class="top-ui"><span>ACHIEVEMENT_LOG</span><span>WISDOM_GAINED_2</span></div>
+    <h2 style="font-size: 50px; margin-bottom: 20px; color: var(--neon-yellow);">💭 12주간 느낀점 - 2/2</h2>
+    <div class="layout-split" style="gap: 20px;">
         <div class="pixel-box clickable" style="border-color: var(--neon-pink);">
-            <h3 style="font-size: 22px; color: var(--neon-pink);"><i class="fa-solid fa-fire"></i> 고통의 가치</h3>
-            <p style="font-size: 16px; line-height: 1.35; margin-top: 5px;">
-                편안함 속에는 성장이 없다.<br>
+            <h3 style="font-size: 32px; color: var(--neon-pink);"><i class="fa-solid fa-fire"></i> 고통의 가치</h3>
+            <p style="font-size: 24px; line-height: 1.5; margin-top: 10px;">
+                편안함 속에는 성장이 없다.<br><br>
                 매주 <strong style="color: var(--neon-pink);">불편한 대화</strong>를 나누고<br>
                 두려움·인정욕구를 마주하며<br>
                 <strong>진짜 나</strong>를 발견함.
             </p>
         </div>
         <div class="pixel-box clickable" style="border-color: var(--neon-yellow);">
-            <h3 style="font-size: 22px; color: var(--neon-yellow);"><i class="fa-solid fa-network-wired"></i> 시스템 사고</h3>
-            <p style="font-size: 16px; line-height: 1.35; margin-top: 5px;">
+            <h3 style="font-size: 32px; color: var(--neon-yellow);"><i class="fa-solid fa-network-wired"></i> 시스템 사고</h3>
+            <p style="font-size: 24px; line-height: 1.5; margin-top: 10px;">
                 단편적 문제 해결이 아닌<br>
-                <strong style="color: var(--neon-yellow);">전체 시스템을 보는 눈</strong>.<br>
+                <strong style="color: var(--neon-yellow);">전체 시스템을 보는 눈</strong>.<br><br>
                 Phase 1의 모든 결정이<br>
                 Phase 2, 3에 미치는 영향 고려.
             </p>
@@ -1518,7 +1526,7 @@
 
 <script>
     let currentSlide = 0;
-    const totalSlides = 19;
+    const totalSlides = 20;
     const slidesWrapper = document.getElementById('slides-wrapper');
     const currentSlideEl = document.getElementById('current-slide');
 
